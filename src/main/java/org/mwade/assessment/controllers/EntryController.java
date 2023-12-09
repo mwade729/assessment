@@ -1,5 +1,7 @@
 package org.mwade.assessment.controllers;
 
+import org.mwade.assessment.services.EntryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +13,9 @@ import java.io.IOException;
 @RestController
 public class EntryController {
 
+    @Autowired
+    EntryService entryService;
+
     @GetMapping("/hello")
     public String hello() {
         return "hi";
@@ -18,8 +23,7 @@ public class EntryController {
 
     @PostMapping("/process")
     public String processFile(@RequestParam("file") MultipartFile entryFile) throws IOException {
-        String entry = new String(entryFile.getBytes());
-        System.out.println(entry);
-        return entry;
+        entryService.handleFile(entryFile);
+        return "okay";
     }
 }
