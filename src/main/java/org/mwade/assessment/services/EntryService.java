@@ -1,6 +1,7 @@
 package org.mwade.assessment.services;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.mwade.assessment.domain.Entry;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,5 +39,17 @@ public class EntryService {
         } catch (NumberFormatException e) {
             throw new ParseException("Number parse error.", lineNumber);
         }
+    }
+    
+    public Entry createEntry(String[] line) {
+        return Entry.builder()
+                .uuid(UUID.fromString(line[0]))
+                .id(line[1])
+                .name(line[2])
+                .likes(line[3])
+                .transport(line[4])
+                .avgSpeed(Double.parseDouble(line[5]))
+                .topSpeed(Double.parseDouble(line[6]))
+                .build();
     }
 }

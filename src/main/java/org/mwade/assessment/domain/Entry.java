@@ -1,14 +1,16 @@
 package org.mwade.assessment.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
+@Builder
 public class Entry {
 
     private UUID uuid;
-    private String Id;
+    private String id;
     private String name;
     private String likes;
     private String transport;
