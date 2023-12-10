@@ -6,21 +6,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class EntryService {
 
-    public void handleFile(MultipartFile file) {
+    public List<Entry> handleFile(MultipartFile file) {
         try {
             InputStreamReader reader = new InputStreamReader(file.getInputStream());
             LineNumberReader lineNumberReader = new LineNumberReader(reader);
+            List<Entry> entries = new ArrayList<>();
             String next;
             while ((next = lineNumberReader.readLine()) != null) {
                 System.out.println("line number " + lineNumberReader.getLineNumber() + " = " + next);
+                entries.add(createEntry(next.split("\\|")));
             }
+            return entries;
         } catch (IOException e) {
-
+            throw new RuntimeException(e);
         }
     }
 
