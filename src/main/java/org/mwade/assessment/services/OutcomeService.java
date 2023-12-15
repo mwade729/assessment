@@ -13,4 +13,5 @@ public class OutcomeService {
     public List<Outcome> fromEntries(List<Entry> entries) {
         return entries.stream().map(Outcome::fromEntry).collect(Collectors.toList());
     }
+
 }

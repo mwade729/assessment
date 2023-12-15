@@ -1,6 +1,5 @@
 package org.mwade.assessment.services;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.mwade.assessment.domain.Entry;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,15 +12,18 @@ import java.util.UUID;
 @Service
 public class EntryService {
 
-    public List<Entry> handleFile(MultipartFile file) {
+    public List<Entry> handleFile(MultipartFile file, boolean validate) throws ParseException {
         try {
             InputStreamReader reader = new InputStreamReader(file.getInputStream());
             LineNumberReader lineNumberReader = new LineNumberReader(reader);
             List<Entry> entries = new ArrayList<>();
             String next;
             while ((next = lineNumberReader.readLine()) != null) {
-                System.out.println("line number " + lineNumberReader.getLineNumber() + " = " + next);
-                entries.add(createEntry(next.split("\\|")));
+                String[] line = next.split("\\|");
+                if (validate) {
+                    verifyLine(line, lineNumberReader.getLineNumber());
+                }
+                entries.add(createEntry(line));
             }
             return entries;
         } catch (IOException e) {
