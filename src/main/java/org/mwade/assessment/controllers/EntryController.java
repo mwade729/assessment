@@ -18,11 +18,15 @@ import java.util.List;
 @RestController
 public class EntryController {
 
-    @Autowired
     EntryService entryService;
 
-    @Autowired
     OutcomeService outcomeService;
+
+    @Autowired
+    public EntryController(EntryService entryService, OutcomeService outcomeService) {
+        this.entryService = entryService;
+        this.outcomeService = outcomeService;
+    }
 
     @PostMapping("/process")
     public ResponseEntity processFile(@RequestParam("file") MultipartFile entryFile, @RequestParam("validate") boolean validate) {
